@@ -166,7 +166,7 @@ func generateSentences(ingredients: [WordObject], measures: [WordObject], values
 /// "cold black tea" -> ["cold", "black", "tea"] where each word has the "ingredient" label
 /// "fl. oz" -> ["fl.", "oz"] where each word has the "measure" label
 
-func separateCollocations(in senteces: Set<[WordObject]>) -> [SentenceObject] {
+func separateCollocations(in sentences: Set<[WordObject]>) -> [SentenceObject] {
     return sentences.compactMap { sentence in
         let sentenceObject = SentenceObject()
 
