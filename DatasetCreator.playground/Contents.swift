@@ -1,9 +1,9 @@
 import Foundation
 import PlaygroundSupport
 
-// MARK: - Prepared values
+// MARK: - prepared values
 
-/// Sentence element types
+/// sentence element types
 enum Label: String, Encodable {
     
     case value
@@ -14,7 +14,7 @@ enum Label: String, Encodable {
     
 }
 
-/// Sentence element
+/// sentence element
 struct WordObject: Hashable {
     
     var token: String
@@ -22,7 +22,7 @@ struct WordObject: Hashable {
     
 }
 
-/// Sentence
+/// sentence
 class SentenceObject: Encodable {
     
     var tokens: [String] = []
@@ -30,17 +30,17 @@ class SentenceObject: Encodable {
     
 }
 
-/// Final JSON
+/// final JSON
 struct FinalJSON: Encodable {
     
     var objects: [SentenceObject]
     
 }
 
-// MARK: - JSON Data preparing
+// MARK: - JSON data preperation
 
-/// Loading of the "IngredientListJsonObjects.json" from the "Resource" folder.
-/// Don't forget to add this file to the "Resource" folder before
+/// loading "IngredientListJsonObjects.json" from the "Resource" folder
+/// don't forget to add this file to the "Resource" folder before running
 
 func loadJSONList() -> Data? {
     guard let jsonURL = Bundle.main.url(forResource: "IngredientDataSet", withExtension: "json") else {
@@ -51,7 +51,7 @@ func loadJSONList() -> Data? {
     return try? Data(contentsOf: jsonURL, options: .alwaysMapped)
 }
 
-/// Parsing of uniqe ingredient names from JSON
+/// parses uniqe ingredient names from JSON
 
 func getIngredients() -> [WordObject] {
     let decoder = JSONDecoder()
@@ -65,7 +65,7 @@ func getIngredients() -> [WordObject] {
     }
 }
 
-/// Values preparing
+/// value preparation
 
 func getValues() -> [WordObject] {
     var values: [String] = [
@@ -80,7 +80,7 @@ func getValues() -> [WordObject] {
     return values.map { WordObject(token: $0, label: .value) }.shuffled()
 }
 
-/// Measures preparing
+/// measure preparation
 
 func getMeasures() -> [WordObject] {
     var measures = ["tbsp", "tbsp.", "tablespoon", "tablespoons", "tb.", "tb", "tbl.", "tbl", "tsp", "tsp.", "teaspoon", "teaspoons", "oz", "oz.", "ounce", "ounces", "c", "c.", "cup", "cups", "qt", "qt.", "quart", "pt", "pt.", "pint", "pints", "ml", "milliliter", "milliliters", "g", "gram", "grams", "kg", "kilogram", "kilograms", "l", "liter", "liters", "pinch", "pinches", "gal", "gal.", "gallons", "lb.", "lb", "pkg.", "pkg", "package", "packages","can", "cans", "box", "boxes", "stick", "sticks", "bag", "bags"]
@@ -93,7 +93,7 @@ struct IngredientArray: Decodable {
     let ingredients: [String]
 }
 
-/// Save a final JSON file
+/// save the final JSON file
 
 func save(_ data: Data, fileName: String) {
     guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: .json5Allowed) else {
@@ -118,9 +118,9 @@ func save(_ data: Data, fileName: String) {
     }
 }
 
-/// Sentences generation
+/// sentence generation
 ///
-/// Here we create different types of sentences for each ingredient type
+/// here we create different types of sentences for each ingredient type
 
 func generateSentences(ingredients: [WordObject], measures: [WordObject], values: [WordObject]) -> Set<[WordObject]> {
     var measureIndex = 0
@@ -158,11 +158,11 @@ func generateSentences(ingredients: [WordObject], measures: [WordObject], values
     }
 }
 
-/// Collocation separation
+/// collocation separation
 ///
-/// Here we should handle a case if an ingredient name or a measure consists few words
+/// here we should handle a case if an ingredient name or a measure consists few words
 ///
-/// Example:
+/// example:
 /// "cold black tea" -> ["cold", "black", "tea"] where each word has the "ingredient" label
 /// "fl. oz" -> ["fl.", "oz"] where each word has the "measure" label
 
@@ -183,7 +183,7 @@ func separateCollocations(in sentences: Set<[WordObject]>) -> [SentenceObject] {
     }
 }
 
-// MARK: - Programm
+// MARK: - program
 
 var values = getValues()
 var measures = getMeasures()
@@ -196,12 +196,12 @@ print("Measures: \(measures.count)")
 let sentences = generateSentences(ingredients: ingredients, measures: measures, values: values)
 let preparedSentences = separateCollocations(in: sentences)
 
-/// Encode and save a final JSON
+/// encode and save the final JSON
 
 let json = FinalJSON(objects: preparedSentences)
 let data = try JSONEncoder().encode(json.objects)
 
 save(data, fileName: "exp10-test")
 
-/// [Run] Launch this programm here
+/// [Run] launch the program here
 
