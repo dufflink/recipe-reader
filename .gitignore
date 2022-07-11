@@ -1,1 +1,6 @@
 .DS_Store
+*.xcuserdatad
+
+Pods
+Recipe-reader/Podfile.lock
+Recipe-reader/Recipe-reader/Other
