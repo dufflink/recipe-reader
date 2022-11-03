@@ -66,9 +66,14 @@ final class RecipeViewController: UIViewController {
     
     private func addLiveTextButton() {
         if #available(iOS 15.0, *) {
+            liveTextHandlerView.recipeHandlerDelegate = self
             let liveTextCameraAction = UIAction.captureTextFromCamera(responder: liveTextHandlerView, identifier: nil)
             
             let button = RRButton(primaryAction: liveTextCameraAction)
+            
+            button.setTitle("Live Text", for: .normal)
+            button.setImage(nil, for: .normal)
+            
             buttonsStackView.insertArrangedSubview(button, at: 0)
         }
     }

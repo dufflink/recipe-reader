@@ -13,6 +13,4 @@ enum WordType: String {
     case ingredient
     case combination
     
-    case whitespace
-    
 }

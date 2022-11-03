@@ -64,8 +64,8 @@ final class TextFrameCalculator {
         let height = bottomY - topLeftPoint.y + 30
         
         let origin = topLeftPoint + CGPoint(x: -10, y: -10)
-        
         let size = CGSize(width: width, height: height)
+        
         return CGRect(origin: origin, size: size)
     }
     

@@ -13,7 +13,7 @@ import MLKit
 final class RecipeHandler {
     
     private var tagger: NLTagger?
-    private let nlTagScheme = NLTagScheme("Recipe")
+    private let nlTagScheme: NLTagScheme = .nameType
     
     // MARK: - Life Cycle
     
@@ -25,33 +25,29 @@ final class RecipeHandler {
     
     func handleText(_ text: String) -> [RecipeRow] {
         var lines: [String] = []
-        self.tagger?.string = text
+        tagger?.string = text
         
-        self.tagger?.enumerateTags(in: text.startIndex ..< text.endIndex, unit: .sentence, scheme: self.nlTagScheme, options: []) { _, tokenRange in
-            let line = String(text[tokenRange])
+        tagger?.enumerateTags(in: text.startIndex ..< text.endIndex, unit: .sentence, scheme: nlTagScheme) { _, tokenRange in
+            let line = String(text[tokenRange]).trimmingCharacters(in: .whitespacesAndNewlines)
             lines.append(line)
             
             return true
         }
         
-        return tagRecipeLines(lines)
+        return tagRecipeElements(lines)
     }
     
-    func handleMLKitText(_ visionText: Text) -> [RecipeRow] {
-        let lines = visionText.blocks.flatMap { $0.lines }.map { $0.text }
-        return tagRecipeLines(lines)
+    func handleMLKitText(_ text: Text) -> [RecipeRow] {
+        let lines = text.blocks.flatMap { $0.lines }.map { $0.text }
+        return tagRecipeElements(lines)
     }
     
-    private func tagRecipeLines(_ lines: [String]) -> [RecipeRow] {
-        var recipeRows: [RecipeRow] = []
-        
-        lines.forEach { line in
-            self.tagger?.string = line.lowercased()
-
-            var previousType: WordType = .value
+    private func tagRecipeElements(_ lines: [String]) -> [RecipeRow] {
+        return lines.map { line in
+            tagger?.string = line.lowercased()
             let currentRecipeRow = RecipeRow()
             
-            self.tagger?.enumerateTags(in: line.startIndex ..< line.endIndex, unit: .word, scheme: self.nlTagScheme, options: [.omitWhitespace]) { tag, tokenRange in
+            tagger?.enumerateTags(in: line.startIndex ..< line.endIndex, unit: .word, scheme: nlTagScheme, options: [.omitWhitespace]) { tag, tokenRange in
                 guard let tag = tag, let type = WordType(rawValue: tag.rawValue) else {
                     return false
                 }
@@ -60,30 +56,15 @@ final class RecipeHandler {
                 
                 switch type {
                     case .value:
-                        if previousType == .value {
-                            currentRecipeRow.value += value
-                        }
+                        currentRecipeRow.value += value
                     case .measure:
-                        currentRecipeRow.measure += value
+                        currentRecipeRow.measure += " \(value)"
                     case .ingredient:
                         currentRecipeRow.ingredient += " \(value)"
-                    case .whitespace:
-                        switch previousType {
-                            case .value, .combination, .whitespace:
-                                break
-                            case .measure:
-                                currentRecipeRow.measure += value
-                            case .ingredient:
-                                currentRecipeRow.ingredient += value
-                        }
                     case .combination:
                         currentRecipeRow.combination += value
                 }
-                
-                if type != .whitespace {
-                    previousType = type
-                }
-                
+
                 return true
             }
             
@@ -92,10 +73,8 @@ final class RecipeHandler {
                 currentRecipeRow.measure = measure
             }
             
-            recipeRows += [currentRecipeRow]
+            return currentRecipeRow
         }
-        
-        return recipeRows
     }
     
     private func split(_ combination: String) -> (value: String, measure: String)? {
@@ -142,7 +121,7 @@ final class RecipeHandler {
             return
         }
         
-        let tagger = NLTagger(tagSchemes: [.nameType, nlTagScheme])
+        let tagger = NLTagger(tagSchemes: [nlTagScheme])
         tagger.setModels([nlModel], forTagScheme: nlTagScheme)
         
         self.tagger = tagger

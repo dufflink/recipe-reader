@@ -46,7 +46,9 @@ final class CameraViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        captureSession?.startRunning()
+        DispatchQueue.global(qos: .background).async {
+            self.captureSession?.startRunning()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -74,7 +76,8 @@ final class CameraViewController: UIViewController {
         session.beginConfiguration()
         session.sessionPreset = .high
         
-        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back), let input = try? AVCaptureDeviceInput(device: device) else {
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back),
+              let input = try? AVCaptureDeviceInput(device: device) else {
             print("Couldn't create video input")
             return
         }
@@ -159,7 +162,7 @@ final class CameraViewController: UIViewController {
         photoOutput.capturePhoto(with: settings, delegate: self)
     }
     
-    private func handleRecipe(in image: UIImage) {
+    private func readText(in image: UIImage) {
         let visionImage = VisionImage(image: image)
         
         queue.addOperation { [weak self] in
@@ -219,7 +222,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
 extension CameraViewController: CropViewControllerDelegate {
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        handleRecipe(in: image)
+        readText(in: image)
 
         cropViewController.dismiss(animated: false) {
             self.dismiss(animated: true)
