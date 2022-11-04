@@ -84,19 +84,19 @@ final class RecipeHandler {
         }
         
         var valueEndIndex = -1
-        var metNotNumber = false
+        var didMetSymbol = false
 
         for item in combination {
             let string = String(item)
             
             if Int(string) == nil {
-                if metNotNumber {
+                if didMetSymbol {
                     break
                 }
 
-                metNotNumber = true
+                didMetSymbol = true
             } else {
-                metNotNumber = false
+                didMetSymbol = false
             }
             
             valueEndIndex += 1
