@@ -13,7 +13,7 @@ import MLKit
 final class RecipeHandler {
     
     private var tagger: NLTagger?
-    private let nlTagScheme: NLTagScheme = .nameType
+    private let nlTagScheme: NLTagScheme = .tokenType
     
     // MARK: - Life Cycle
     
@@ -48,17 +48,18 @@ final class RecipeHandler {
             let currentRecipeRow = RecipeRow()
             
             tagger?.enumerateTags(in: line.startIndex ..< line.endIndex, unit: .word, scheme: nlTagScheme, options: [.omitWhitespace]) { tag, tokenRange in
-                guard let tag = tag, let type = WordType(rawValue: tag.rawValue) else {
+                guard let tag = tag, let tagType = TagType(rawValue: tag.rawValue) else {
                     return false
                 }
                 
                 let value = String(line[tokenRange])
                 
-                switch type {
+                switch tagType {
                     case .value:
                         currentRecipeRow.value += value
                     case .measure:
                         currentRecipeRow.measure += " \(value)"
+                    
                     case .ingredient:
                         currentRecipeRow.ingredient += " \(value)"
                     case .combination:

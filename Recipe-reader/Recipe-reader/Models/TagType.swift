@@ -5,7 +5,7 @@
 //  Created by Maxim Skorynin on 15.12.2021.
 //
 
-enum WordType: String {
+enum TagType: String {
     
     case value
     case measure

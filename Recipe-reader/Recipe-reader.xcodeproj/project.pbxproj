@@ -21,7 +21,7 @@
 		B06B9FF4276A087F006D3D0C /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06B9FF3276A087F006D3D0C /* Storyboard.swift */; };
 		B06B9FF8276A09AC006D3D0C /* RecipeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06B9FF7276A09AC006D3D0C /* RecipeRow.swift */; };
 		B06B9FFA276A09CD006D3D0C /* FormattedRecipeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06B9FF9276A09CD006D3D0C /* FormattedRecipeModel.swift */; };
-		B06B9FFC276A09E8006D3D0C /* WordType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06B9FFB276A09E8006D3D0C /* WordType.swift */; };
+		B06B9FFC276A09E8006D3D0C /* TagType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06B9FFB276A09E8006D3D0C /* TagType.swift */; };
 		B06BA000276A1512006D3D0C /* LiveTextHandlerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06B9FFF276A1512006D3D0C /* LiveTextHandlerView.swift */; };
 		B0702669274283220057A9AD /* BoxTextRecognizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0702668274283220057A9AD /* BoxTextRecognizerViewController.swift */; };
 		B0765CB82769D4700096214D /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0765CB72769D4700096214D /* CameraViewController.swift */; };
@@ -53,7 +53,7 @@
 		B06B9FF3276A087F006D3D0C /* Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
 		B06B9FF7276A09AC006D3D0C /* RecipeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRow.swift; sourceTree = "<group>"; };
 		B06B9FF9276A09CD006D3D0C /* FormattedRecipeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedRecipeModel.swift; sourceTree = "<group>"; };
-		B06B9FFB276A09E8006D3D0C /* WordType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordType.swift; sourceTree = "<group>"; };
+		B06B9FFB276A09E8006D3D0C /* TagType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagType.swift; sourceTree = "<group>"; };
 		B06B9FFF276A1512006D3D0C /* LiveTextHandlerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTextHandlerView.swift; sourceTree = "<group>"; };
 		B0702668274283220057A9AD /* BoxTextRecognizerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxTextRecognizerViewController.swift; sourceTree = "<group>"; };
 		B0765CB72769D4700096214D /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 			children = (
 				B06B9FF7276A09AC006D3D0C /* RecipeRow.swift */,
 				B06B9FF9276A09CD006D3D0C /* FormattedRecipeModel.swift */,
-				B06B9FFB276A09E8006D3D0C /* WordType.swift */,
+				B06B9FFB276A09E8006D3D0C /* TagType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -352,7 +352,7 @@
 				B07CCDD42768A5840054E54E /* DrawingLayer.swift in Sources */,
 				B03E370E276762A7000622C3 /* IngredientRow.swift in Sources */,
 				B07CCDD62768AE3E0054E54E /* DrawingView.swift in Sources */,
-				B06B9FFC276A09E8006D3D0C /* WordType.swift in Sources */,
+				B06B9FFC276A09E8006D3D0C /* TagType.swift in Sources */,
 				B0A1D95F27676C9400F7F82B /* Array.swift in Sources */,
 				B07CCDD227689AB60054E54E /* RecipeHandler.swift in Sources */,
 				B0071E8D2761DC5A00A2B59D /* MLKitCaptureViewController.swift in Sources */,
